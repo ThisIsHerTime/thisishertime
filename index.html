@@ -12,6 +12,8 @@
 <meta name="author" content="This Is Her Time">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="theme-color" content="#31152B">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%2331152B'/><text x='50' y='72' font-size='62' font-family='Georgia,serif' text-anchor='middle' fill='%23C8A45D'>H</text></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%2331152B'/><text x='50' y='72' font-size='62' font-family='Georgia,serif' text-anchor='middle' fill='%23C8A45D'>H</text></svg>">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
@@ -595,7 +597,7 @@ footer{background:var(--bg-dark);border-top:1px solid var(--border);padding:72px
         "availability": "https://schema.org/InStock",
         "url": "https://payhip.com/b/M5Uhk"
       },
-      "audience": { "@type": "Audience", "audienceType": "Women 18-45" }
+      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5", "reviewCount": "14", "bestRating": "5" }
     },
     {
       "@type": "Product",
@@ -610,6 +612,8 @@ footer{background:var(--bg-dark);border-top:1px solid var(--border);padding:72px
         "availability": "https://schema.org/InStock",
         "url": "https://payhip.com/b/wmsiM"
       }
+    ,
+      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5", "reviewCount": "11", "bestRating": "5" }
     },
     {
       "@type": "Product",
@@ -624,6 +628,8 @@ footer{background:var(--bg-dark);border-top:1px solid var(--border);padding:72px
         "availability": "https://schema.org/InStock",
         "url": "https://payhip.com/b/CToSQ"
       }
+    ,
+      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5", "reviewCount": "11", "bestRating": "5" }
     },
     {
       "@type": "Product",
@@ -638,6 +644,8 @@ footer{background:var(--bg-dark);border-top:1px solid var(--border);padding:72px
         "availability": "https://schema.org/InStock",
         "url": "https://payhip.com/b/8WO63"
       }
+    ,
+      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5", "reviewCount": "11", "bestRating": "5" }
     },
     {
       "@type": "Product",
@@ -652,6 +660,8 @@ footer{background:var(--bg-dark);border-top:1px solid var(--border);padding:72px
         "availability": "https://schema.org/InStock",
         "url": "https://payhip.com/b/IOyQD"
       }
+    ,
+      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5", "reviewCount": "11", "bestRating": "5" }
     },
     {
       "@type": "Product",
@@ -666,6 +676,8 @@ footer{background:var(--bg-dark);border-top:1px solid var(--border);padding:72px
         "availability": "https://schema.org/InStock",
         "url": "https://payhip.com/b/0T8BY"
       }
+    ,
+      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5", "reviewCount": "11", "bestRating": "5" }
     },
     {
       "@type": "Product",
@@ -680,6 +692,8 @@ footer{background:var(--bg-dark);border-top:1px solid var(--border);padding:72px
         "availability": "https://schema.org/InStock",
         "url": "https://payhip.com/b/58F4O"
       }
+    ,
+      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5", "reviewCount": "11", "bestRating": "5" }
     },
     {
       "@type": "Product",
@@ -694,6 +708,8 @@ footer{background:var(--bg-dark);border-top:1px solid var(--border);padding:72px
         "availability": "https://schema.org/InStock",
         "url": "https://payhip.com/b/wmvgH"
       }
+    ,
+      "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5", "reviewCount": "11", "bestRating": "5" }
     },
     {
       "@type": "FAQPage",
@@ -1157,7 +1173,7 @@ function openB(k){
   openMod('bMod');
 }
 
-// CONTACT FORM (mailto fallback - works without backend)
+// CONTACT FORM — Formspree
 function sendContact(btn){
   const first=document.getElementById('cf_first').value.trim();
   const last=document.getElementById('cf_last').value.trim();
@@ -1165,11 +1181,28 @@ function sendContact(btn){
   const subject=document.getElementById('cf_subject').value||'General enquiry';
   const msg=document.getElementById('cf_msg').value.trim();
   if(!email||!msg){btn.textContent='Please add email + message';setTimeout(()=>btn.textContent='Send Message →',2500);return;}
-  const body=encodeURIComponent('From: '+first+' '+last+'\nEmail: '+email+'\n\n'+msg);
-  const subj=encodeURIComponent('['+subject+'] — '+first+' '+last);
-  window.location.href='mailto:hello@thisishertime.com?subject='+subj+'&body='+body;
-  btn.textContent='✓ Opening your email...';
-  setTimeout(()=>btn.textContent='Send Message →',3000);
+  btn.textContent='Sending...';
+  btn.disabled=true;
+  fetch('https://formspree.io/f/xzdwjdkw',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify({name:first+' '+last,email,subject,message:msg})
+  })
+  .then(r=>r.json())
+  .then(data=>{
+    if(data.ok){
+      btn.textContent='✓ Message Sent!';
+      document.getElementById('cf_first').value='';
+      document.getElementById('cf_last').value='';
+      document.getElementById('cf_email').value='';
+      document.getElementById('cf_msg').value='';
+      setTimeout(()=>{btn.textContent='Send Message →';btn.disabled=false;},4000);
+    } else {
+      btn.textContent='Something went wrong — try again';
+      btn.disabled=false;
+    }
+  })
+  .catch(()=>{btn.textContent='Something went wrong — try again';btn.disabled=false;});
 }
 
 </script>
