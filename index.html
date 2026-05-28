@@ -1133,7 +1133,7 @@ document.getElementById('kitForm').addEventListener('submit',function(e){
   e.preventDefault();
   const email=this.querySelector('input[name="email_address"]').value;
   fetch('https://app.kit.com/forms/9495753/subscriptions',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'email_address='+encodeURIComponent(email)})
-  .then(()=>{this.innerHTML='';document.getElementById('kitMsg').textContent='✓ You\'re in! Check your inbox to confirm.';})
+  .then(()=>{this.innerHTML='';document.getElementById('kitMsg').textContent='✓ You\'re in! Check your inbox for a welcome from us.';})
   .catch(()=>{document.getElementById('kitMsg').textContent='Something went wrong — try again.';});
 });
 
