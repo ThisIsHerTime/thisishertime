@@ -900,7 +900,7 @@ footer{background:var(--bg-dark);border-top:1px solid var(--border);padding:72px
         <li><span class="bck">✦</span>Boundaries That Work</li>
         <li><span class="bck">✦</span>Morning Ritual That Changes Everything</li>
       </ul>
-      <a href="https://payhip.com/b/aiJQy" target="_blank" class="bundle-cta">Get The Complete Collection — $147 →</a>
+      <a href="mailto:hello@thisishertime.com?subject=Complete%20Collection%20Bundle%20%E2%80%94%20%24147&body=Hi%20This%20Is%20Her%20Time%2C%0A%0AI%27d%20like%20to%20order%20the%20Complete%20Collection%20bundle%20(all%208%20guides%20for%20%24147).%20Please%20send%20me%20the%20payment%20link.%0A%0AThank%20you%21" class="bundle-cta">Get The Complete Collection — $147 →</a>
       <p class="bundle-note">✦ Instant delivery · Lifetime access · 30-day support</p>
     </div>
   </div>
@@ -1013,11 +1013,11 @@ footer{background:var(--bg-dark);border-top:1px solid var(--border);padding:72px
     <div class="eye" style="justify-content:center;"><span class="eyln" style="display:none;"></span>Join the Community</div>
     <h2 class="stitle">Free wisdom,<br>every <em>week</em></h2>
     <p class="ssub" style="margin:0 auto 44px;">Join 2,400+ women receiving our weekly letter — real talk on confidence, standards, and becoming your best self. Free, always.</p>
-    <div class="nlform">
-      <input type="email" class="nlinput" placeholder="Enter your email address">
-      <button class="nlbtn">Join Free →</button>
-    </div>
-    <p class="nlnote">No spam. Unsubscribe instantly anytime.</p>
+    <form class="nlform" action="https://app.kit.com/forms/9495753/subscriptions" method="post" id="kitForm">
+      <input type="email" name="email_address" class="nlinput" placeholder="Enter your email address" required>
+      <button type="submit" class="nlbtn">Join Free →</button>
+    </form>
+    <p class="nlnote" id="kitMsg">No spam. Unsubscribe instantly anytime.</p>
   </div>
 </section>
 
@@ -1127,6 +1127,15 @@ footer{background:var(--bg-dark);border-top:1px solid var(--border);padding:72px
 function toggleMenu(){document.getElementById('mobMenu').classList.toggle('open');}
 function cm(){document.getElementById('mobMenu').classList.remove('open');}
 function goto(id){document.querySelector(id).scrollIntoView({behavior:'smooth'});cm();}
+
+// KIT NEWSLETTER
+document.getElementById('kitForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  const email=this.querySelector('input[name="email_address"]').value;
+  fetch('https://app.kit.com/forms/9495753/subscriptions',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'email_address='+encodeURIComponent(email)})
+  .then(()=>{this.innerHTML='';document.getElementById('kitMsg').textContent='✓ You\'re in! Check your inbox to confirm.';})
+  .catch(()=>{document.getElementById('kitMsg').textContent='Something went wrong — try again.';});
+});
 
 // FAQ
 function tFaq(btn){
